@@ -1,0 +1,11 @@
+.movie-item {
+    border-radius: 1rem;
+    border: solid 0.15rem black;
+    margin: 1rem;
+    padding: 0.3rem;
+    display: flex;
+    flex-direction: column;
+}
+.text-items {
+    margin-top: auto;
+}
