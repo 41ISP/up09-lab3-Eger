@@ -2,11 +2,12 @@ import { PropsWithChildren } from "react"
 
 interface IButton extends PropsWithChildren {
     handleClick: any
+    disabled?: boolean
 }
 
-const Button = ({handleClick, children}: IButton) => {
+const Button = ({handleClick, children, disabled}: IButton) => {
     return (
-        <button onClick={handleClick}>{children}</button>
+        <button disabled={disabled ?? false} onClick={handleClick}>{children}</button>
     )
 }
 

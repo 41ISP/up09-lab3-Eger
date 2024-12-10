@@ -1,11 +1,40 @@
 import { useNavigate } from "react-router-dom";
-import { ISearch } from "../../shared/api/api.rdo";
 import "./MovieItem.css";
-const MovieItem = ({ Poster, Title, Type, Year, imdbID, isLiked }: ISearch) => {
+import Button from "../Button/Button";
+import { ILiked, useMovieStore } from "../../app/states/store";
+import { useEffect, useState } from "react";
+
+const MovieItem = (props: ILiked) => {
+    const { Poster, Title, Type, Year, imdbID, isLiked: _isLiked } = props
+    const [isLiked, setIsLiked] = useState(_isLiked)
+    const likedMovies = useMovieStore.use.likedMovies()
+    const setLikedMovies = useMovieStore.use.setLikedMovies()
     const navigate = useNavigate()
-    
+
+    const setLike = () => {
+        setIsLiked((liked) => !liked)
+    }
+
+    useEffect(() => {
+        if (isLiked) {
+            if(likedMovies.some(item => item.imdbID == imdbID)) return
+
+            likedMovies.forEach(el => console.log(el))
+
+            setLikedMovies([...likedMovies, { ...props, isLiked: true }])
+        }
+        else {
+            setLikedMovies(likedMovies.filter((el) => el.imdbID != imdbID))
+        }
+    }, [isLiked])
+
+    const navigateToMovie = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (e.target.tagName !== 'BUTTON')
+            navigate(`/movies/${imdbID}`)
+    }
+
     return (
-            <div onClick={() => navigate(`/movies/${imdbID}`)} className="movie-item">
+        <div onClick={e => navigateToMovie(e)} className="movie-item">
             <img src={Poster} alt={Title} />
             <div className="text-items">
                 <p>Title: {Title}</p>
@@ -16,11 +45,10 @@ const MovieItem = ({ Poster, Title, Type, Year, imdbID, isLiked }: ISearch) => {
                 <hr />
                 <p>IMDB ID: {imdbID}</p>
                 <hr />
-                {/* заглушка пока что */}
-                {!isLiked && <p>Like</p>}
+                <Button handleClick={setLike}>{isLiked ? 'Dislike' : 'Like'}</Button>
             </div>
-            </div>
-  );
+        </div>
+    );
 };
 
 export default MovieItem;

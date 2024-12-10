@@ -1,25 +1,38 @@
-import { createStore } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+import { create } from 'zustand'
+import { createJSONStorage, devtools, persist } from 'zustand/middleware'
 import { ISearch } from '../../shared/api/api.rdo'
+import { createSelectors } from './selector'
 
-interface MovieState {
-    lastSearchTitle: string,
-    setLastSearchTitle: (lastSearchTitle: string) => void,
-    lastSearchResults: ISearch[]
-    setLastSearchResults: (lastSearchResults: ISearch[]) => void
+export interface ILiked extends ISearch {
+    isLiked?: boolean
 }
 
-export const useMovieStore = createStore<MovieState>()(
-    persist(
-        (set) => ({
-            lastSearchTitle: '',
-            setLastSearchTitle: (lastSearchTitle) => set({lastSearchTitle}),
-            lastSearchResults: [],
-            setLastSearchResults: (lastSearchResults) => set({lastSearchResults})
-        }),
-        { 
-            name: 'movie-storage',
-            storage: createJSONStorage(() => localStorage)
-        }
+interface IMovieState {
+    lastSearchTitle: string
+    setLastSearchTitle: (lastSearchTitle: string) => void
+    lastSearchResults: ILiked[]
+    setLastSearchResults: (lastSearchResults: ILiked[]) => void
+    likedMovies: ILiked[]
+    setLikedMovies: (likedMovies: ILiked[]) => void
+}
+
+const useMovieStoreBase = create<IMovieState>()(
+    devtools(
+        persist(
+            (set) => ({
+                lastSearchTitle: '',
+                setLastSearchTitle: (lastSearchTitle) => set({ lastSearchTitle }),
+                lastSearchResults: [],
+                setLastSearchResults: (lastSearchResults) => set({ lastSearchResults }),
+                likedMovies: [],
+                setLikedMovies: (likedMovies) => set((state) => ({ ...state, likedMovies }))   
+            }),
+            {
+                name: 'movie-storage',
+                storage: createJSONStorage(() => localStorage)
+            }
+        )
     )
 )
+
+export const useMovieStore = createSelectors(useMovieStoreBase)

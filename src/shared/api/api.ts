@@ -1,6 +1,6 @@
 import axios from "axios"
-import {IGetByTitle} from "./api.dto"
-import { useMovieStore } from "../../app/states/store"
+import { IGetByTitle } from "./api.dto"
+import { ISearchByTitle } from "./api.rdo"
 
 const API_KEY = import.meta.env.VITE_API_KEY
 
@@ -10,32 +10,27 @@ const BaseURL = 'http://www.omdbapi.com'
  * Represents Omdb API
  * https://steamapi.xpaw.me/#
  */
-const OmdpAPIAxios = axios.create()
+const OmdpAPIAxios = axios.create({baseURL: BaseURL})
 
 const OmdbAPI = {
-    searchByTitle: async (props?: IGetByTitle) => {
-        try{
-            const result = await OmdpAPIAxios.get(`${BaseURL}/?`, {params: {apikey: API_KEY, s: props?.title, y: props?.year}})
-            console.log(result)
-
-            useMovieStore.getState().setLastSearchResults(result.data.Search)
+    searchByTitle: async (props: IGetByTitle) => {
+        try {
+            const result = await OmdpAPIAxios.get<ISearchByTitle>(`${BaseURL}/?`, { params: { apikey: API_KEY, s: props?.title, y: props?.year, page: props?.page } })
             
-            useMovieStore.getState().setLastSearchTitle(props?.title ?? '')
-
             return result
         }
-        catch{
-
+        catch (err) {
+            console.error(err)
         }
     },
     getByTitle: async (props?: IGetByTitle) => {
-        try{
-            const result = await OmdpAPIAxios.get(`${BaseURL}/?`, {params: {apikey: API_KEY, t: props?.title, y: props?.year, p: props?.plot, i: props?.imdbId}})
-            console.log(result)
+        try {
+            const result = await OmdpAPIAxios.get<IGetByTitle>(`${BaseURL}/?`, { params: { apikey: API_KEY, t: props?.title, y: props?.year, p: props?.plot, i: props?.imdbId } })
+            
             return result
         }
-        catch{
-            
+        catch (err) {
+            console.error(err)
         }
     }
 }
