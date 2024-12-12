@@ -10,6 +10,10 @@ const router = createBrowserRouter([
     {
         path: '/movies/:imdbId',
         element: <MoviePage/>
+    },
+    {
+        path: '/likes',
+        element: <App/>
     }
     
 ])

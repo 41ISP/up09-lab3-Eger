@@ -1,14 +1,16 @@
-import { PropsWithChildren } from "react"
+import { PropsWithChildren } from "react";
 
 interface IButton extends PropsWithChildren {
-    handleClick: any
-    disabled?: boolean
+	handleClick: any;
+	disabled?: boolean;
 }
 
-const Button = ({handleClick, children, disabled}: IButton) => {
-    return (
-        <button disabled={disabled ?? false} onClick={handleClick}>{children}</button>
-    )
-}
+const Button = ({ handleClick, children, disabled }: IButton) => {
+	return (
+		<button disabled={disabled ?? false} onClick={handleClick}>
+			{children}
+		</button>
+	);
+};
 
-export default Button
+export default Button;

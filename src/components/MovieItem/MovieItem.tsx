@@ -9,22 +9,33 @@ const MovieItem = (props: ILiked) => {
     const [isLiked, setIsLiked] = useState(_isLiked)
     const likedMovies = useMovieStore.use.likedMovies()
     const setLikedMovies = useMovieStore.use.setLikedMovies()
+    const setLastSearchResults = useMovieStore.use.setLastSearchResults()
+    const lastSearchResults = useMovieStore.use.lastSearchResults()
+
     const navigate = useNavigate()
 
     const setLike = () => {
         setIsLiked((liked) => !liked)
     }
 
-    useEffect(() => {
+    useEffect(() => {        
         if (isLiked) {
             if(likedMovies.some(item => item.imdbID == imdbID)) return
 
-            likedMovies.forEach(el => console.log(el))
-
             setLikedMovies([...likedMovies, { ...props, isLiked: true }])
+            setLastSearchResults(lastSearchResults.map(el => {
+                if(el.imdbID == props.imdbID) 
+                    el.isLiked = true
+                return el
+            }))
         }
         else {
             setLikedMovies(likedMovies.filter((el) => el.imdbID != imdbID))
+            setLastSearchResults(lastSearchResults.map(el => {
+                if(el.imdbID == props.imdbID) 
+                    el.isLiked = false
+                return el
+            }))
         }
     }, [isLiked])
 
@@ -37,13 +48,11 @@ const MovieItem = (props: ILiked) => {
         <div onClick={e => navigateToMovie(e)} className="movie-item">
             <img src={Poster} alt={Title} />
             <div className="text-items">
-                <p>Title: {Title}</p>
+                <p><b>{Title}</b></p>
                 <hr />
-                <p>Type: {Type}</p>
+                <p>{Type}</p>
                 <hr />
-                <p>Year: {Year}</p>
-                <hr />
-                <p>IMDB ID: {imdbID}</p>
+                <p>{Year}</p>
                 <hr />
                 <Button handleClick={setLike}>{isLiked ? 'Dislike' : 'Like'}</Button>
             </div>
