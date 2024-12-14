@@ -6,6 +6,9 @@ import "./MoviePage.css";
 import Rating from "../../components/Rating/Ratings";
 import Button from "../../components/Button/Button";
 import { useMovieStore } from "../../app/states/store";
+import { DefaultLoader } from "../../components/DefaultLoader/DefaultLoader";
+
+import Image from '../../components/Image/Image';
 
 const MoviePage = () => {
 	const params = useParams();
@@ -70,61 +73,72 @@ const MoviePage = () => {
 	}, [isLiked]);
 
 	return (
-		<div className="description">
-            <Button handleClick={() => history.back()}>Back</Button>
-			<div>
-				<img src={movie?.Poster} alt={movie?.Title} />
-				<Button handleClick={setLike}>{isLiked ? "Dislike" : "Like"}</Button>
-			</div>
-			<p>Type: {movie?.Type}</p>
-			<hr />
-			<p>Title: {movie?.Title}</p>
-			<hr />
-			<p>Plot: </p>
-			{movie?.Plot}
-			<hr />
-			<p>Actors: </p>
-			{movie?.Actors}
-			<hr />
-			<p>Genre: {movie?.Genre}</p>
-			<hr />
-			<p>Released: {movie?.Released}</p>
-			<hr />
-			<p>Runtime: {movie?.Runtime}</p>
-			<hr />
-			<p>Language: {movie?.Language}</p>
-			<hr />
-			<p>Country: {movie?.Country}</p>
-			<hr />
-			<p>Production: {movie?.Production}</p>
-			<hr />
-			<p>Director: {movie?.Director}</p>
-			<hr />
-			<p>Writer: {movie?.Writer}</p>
-			<hr />
-			<p>Awards: {movie?.Awards}</p>
-			<hr />
-			<p>Ratings:</p>
-			{movie?.Ratings.map((obj) => (
-				<Rating Source={obj.Source} Value={obj.Value} />
-			))}
-			<hr />
-			<p>Rated: {movie?.Rated}</p>
-			<hr />
-			<p>IMDB ID: {movie?.imdbID}</p>
-			<hr />
-			<p>IMDB rating: {movie?.imdbRating}</p>
-			<hr />
-			<p>IMDB votes: {movie?.imdbVotes}</p>
-			<hr />
-			<p>BoxOffice: {movie?.BoxOffice}</p>
-			<hr />
-			<p>Metascore: {movie?.Metascore}</p>
-			<hr />
-			<p>Website: {movie?.Website}</p>
-			<hr />
-			<p>DVD: {movie?.DVD}</p>
-		</div>
+		<>
+			{movie ?
+				<div className="description">
+					<Button handleClick={() => history.back()}>Back</Button>
+					<div>
+						<Image src={movie?.Poster}/>
+						<Button handleClick={setLike}>{isLiked ? "Dislike" : "Like"}</Button>
+					</div>
+					<p>Type: {movie?.Type}</p>
+					<hr />
+					<p>Title: {movie?.Title}</p>
+					<hr />
+					<p>Plot: </p>
+					{movie?.Plot}
+					<hr />
+					<p>Actors: </p>
+					{movie?.Actors}
+					<hr />
+					<p>Genre: {movie?.Genre}</p>
+					<hr />
+					<p>Released: {movie?.Released}</p>
+					<hr />
+					<p>Runtime: {movie?.Runtime}</p>
+					<hr />
+					<p>Language: {movie?.Language}</p>
+					<hr />
+					<p>Country: {movie?.Country}</p>
+					<hr />
+					<p>Production: {movie?.Production}</p>
+					<hr />
+					<p>Director: {movie?.Director}</p>
+					<hr />
+					<p>Writer: {movie?.Writer}</p>
+					<hr />
+					<p>Awards: {movie?.Awards}</p>
+					<hr />
+					<p>Ratings:</p>
+					{movie?.Ratings.map((obj) => (
+						<Rating Source={obj.Source} Value={obj.Value} />
+					))}
+					<hr />
+					<p>Rated: {movie?.Rated}</p>
+					<hr />
+					<p>IMDB ID: {movie?.imdbID}</p>
+					<hr />
+					<p>IMDB rating: {movie?.imdbRating}</p>
+					<hr />
+					<p>IMDB votes: {movie?.imdbVotes}</p>
+					<hr />
+					<p>BoxOffice: {movie?.BoxOffice}</p>
+					<hr />
+					<p>Metascore: {movie?.Metascore}</p>
+					<hr />
+					<p>Website: {movie?.Website}</p>
+					<hr />
+					<p>DVD: {movie?.DVD}</p>
+				</div>
+				: <DefaultLoader
+					diameter={100}
+					primaryWidth={5}
+					primaryColor="aqua"
+					secondaryWidth={0}
+					secondaryColor="white" />
+			}
+		</>
+
 	);
 };
 

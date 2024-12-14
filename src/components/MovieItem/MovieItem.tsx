@@ -3,6 +3,7 @@ import "./MovieItem.css";
 import Button from "../Button/Button";
 import { ILiked, useMovieStore } from "../../app/states/store";
 import { useEffect, useState } from "react";
+import Image from "../Image/Image";
 
 const MovieItem = (props: ILiked) => {
     const { Poster, Title, Type, Year, imdbID, isLiked: _isLiked } = props
@@ -46,7 +47,8 @@ const MovieItem = (props: ILiked) => {
 
     return (
         <div onClick={e => navigateToMovie(e)} className="movie-item">
-            <img src={Poster} alt={Title} />
+            {/* <img src={Poster} alt={Title} /> */}
+            <Image src={Poster}/>
             <div className="text-items">
                 <p><b>{Title}</b></p>
                 <hr />
