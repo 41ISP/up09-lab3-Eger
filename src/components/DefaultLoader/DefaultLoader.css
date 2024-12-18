@@ -1,0 +1,40 @@
+.reactCircularLoader{
+    display:flex;
+    position: relative;
+    align-content: space-around;
+    justify-content: center;
+}
+  
+.reactCircularLoaderPrimary{
+    position: absolute;
+    right: 0; top: 0; 
+    fill: none;
+    stroke-linecap: round;
+}
+
+.reactCircularLoaderSecondary{
+    position: absolute;
+    right: 0; top: 0; 
+    fill: none;
+    stroke-linecap: round;
+}
+
+.animate{
+    stroke-dasharray: 242.6;
+    animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
+}
+
+@keyframes fill-animation{
+    0%{
+        stroke-dasharray: 40 242.6;
+        stroke-dashoffset: 0;
+    }
+    50%{
+        stroke-dasharray: 141.3;
+        stroke-dashoffset: 141.3;
+    }
+    100%{
+        stroke-dasharray: 40 242.6;
+        stroke-dashoffset: 282.6;
+    }
+}

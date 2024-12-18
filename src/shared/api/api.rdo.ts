@@ -37,11 +37,11 @@ export interface ISearch {
   Type: string;
   Year: string;
   imdbID: string;
-  isLiked: boolean;
+  isLiked?: boolean
 }
 
 export interface ISearchByTitle {
   Response: string;
   Search: ISearch[];
-  TotalResults: string;
+  totalResults: number;
 }

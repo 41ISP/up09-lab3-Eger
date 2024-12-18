@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../../App";
-import MoviePage from "../../pages/MoviePage";
+import MoviePage from "../../pages/MoviePage/MoviePage";
 
 const router = createBrowserRouter([
     {
@@ -10,7 +10,12 @@ const router = createBrowserRouter([
     {
         path: '/movies/:imdbId',
         element: <MoviePage/>
+    },
+    {
+        path: '/likes',
+        element: <App/>
     }
+    
 ])
 
 export default router;

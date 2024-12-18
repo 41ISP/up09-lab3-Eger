@@ -3,4 +3,5 @@ export interface IGetByTitle {
     year?: number
     plot?: string
     imdbId?: string
+    page?: number
 }
